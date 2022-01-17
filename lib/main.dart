@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: _without_scaffold(),//const MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }
@@ -96,6 +96,7 @@ class _MyHomePageState extends State<MyHomePage> {
           // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+
             const Text(
               'You have pushed the button this many times:',
             ),
@@ -114,3 +115,155 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
+class _without_scaffold extends StatelessWidget{
+
+  TextEditingController _txt1 = new TextEditingController();
+  TextEditingController _txt2 = new TextEditingController();
+  FocusNode fnode1 = FocusNode();
+  FocusNode fnode2 = FocusNode();
+  FocusNode fnode3 = FocusNode();
+  final _formKey = GlobalKey<FormState>();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Hello world"),
+      ),
+      body: SingleChildScrollView(
+        child: Container(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(20, 25, 20, 0),
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(25),
+                boxShadow: const [
+                  BoxShadow(
+                    color: Colors.black26,
+                    blurRadius: 15.0,
+                    spreadRadius: 2.0,
+                  ),
+                ]
+              ),
+              child: Column(
+                children: [
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Row(
+                    children: const [
+                      Expanded(child: Text("Sr.no")),
+                      Expanded(flex: 3,child: Text("Some Text")),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Expanded(child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: const [
+                          Text("1"),
+                        ],
+                      )),
+                      Expanded(flex: 3,child: Text("This is considered an error condition because it indicates that there is content that cannot be seen.or using a scrollable container rather than a Flex, like a ListView.",)),
+                    ],
+                  ),
+                  SizedBox(height: 20,),
+                    Row(
+                      children: [
+                        Flexible(
+                            child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: const [
+                            Text("2"),
+                          ],
+                        ),
+                        ),
+                        Flexible(
+                          flex: 3,
+                          fit: FlexFit.loose,child: Container(width:100,child: Text("This is considered an error condition because it indicates that there is content that cannot be seen. If the content is legitimately bigger than the available space, consider clipping it with a ClipRect widget before putting it in the flex, or using a scrollable container rather than a Flex, like a ListView.sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",))),
+                      ],
+                    ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.all(15.0),
+                          child: Form(
+                            key: _formKey,
+                            child: Column(
+                              children: [
+                                TextField(
+                                  controller: _txt1,
+                                  focusNode: fnode1,
+                                  onSubmitted: (value){
+                                    FocusScope.of(context).requestFocus(fnode2);
+                                  },
+                                  decoration: const InputDecoration(
+                                    hintText: "Enter some text",
+                                  ),
+                                ),
+                                const SizedBox(height: 10,),
+                                TextFormField(
+                                    controller:_txt2,
+                                    focusNode: fnode2,
+                                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                                    onFieldSubmitted: (value){
+                                      FocusScope.of(context).requestFocus(fnode3);
+                                    },
+                                    validator: (value){
+                                      if(value == null || value.isEmpty){
+                                        return "Please enter some text";
+                                      }
+                                      return null;
+                                    },
+                                  decoration: const InputDecoration(
+                                    hintText: "Enter some text",
+                                  ),
+                                ),
+                                const SizedBox(height: 10,),
+                                SizedBox(
+                                  width: double.infinity,
+                                  height: 40,
+                                  child: ElevatedButton(
+                                    focusNode: fnode3,
+                                    onPressed: (){
+                                    if(_formKey.currentState!.validate()){
+                                            print("Everything is ok");
+                                    }
+                                  },
+                                    child: const Text("Submit"),
+                                    style: const ButtonStyle(
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+  //_without_scaffold_state createState() => _without_scaffold_state();
+}
+
+// class _without_scaffold_state extends State<_without_scaffold>{
+//   @override
+//   Widget build(BuildContext context) {
+//     return Row(
+//       mainAxisAlignment: MainAxisAlignment.center,
+//       children: const[
+//         Text("Hello"),
+//       ],
+//     );
+//   }
+//
+// }
